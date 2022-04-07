@@ -9,7 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from passgen import Password
 
 class Ui_addpassWin(object):
     def setupUi(self, addpassWin):
@@ -104,6 +104,7 @@ class Ui_addpassWin(object):
 
         self.retranslateUi(addpassWin)
         QtCore.QMetaObject.connectSlotsByName(addpassWin)
+        self.connections(addpassWin)
 
     def retranslateUi(self, addpassWin):
         _translate = QtCore.QCoreApplication.translate
@@ -121,6 +122,17 @@ class Ui_addpassWin(object):
         self.comboBox.setItemText(1, _translate("addpassWin", "Strong (slower)"))
         self.addButton.setText(_translate("addpassWin", "Add"))
         self.requiredLabel.setText(_translate("addpassWin", "*required"))
+
+    def connections(self, addpassWin):
+        self.generateButton.clicked.connect(self.passgen)
+    
+    def passgen(self, addpassWin):
+        p = Password(10, True, True, True)
+        z = p.make()
+        self.passwordLine.setText(z)
+
+
+
 
 
 if __name__ == "__main__":

@@ -1,0 +1,66 @@
+/* light theme stylesheet */
+
+QMainWindow{
+    background-color: white;
+
+}
+
+
+QWidget{
+    background-color: white;
+}
+
+QMenuBar{
+    color: black;
+    background-color: white;
+}
+
+QMenu{
+    color: black;
+    background-color: white;
+}
+
+QAction{
+    color: black;
+    background-color: white;
+}
+
+QLabel{
+    color: black;
+}
+
+
+
+QPushButton{
+    background-color: rgb(177, 177, 177);
+    color: black;
+    font-size: 20px;
+    font-family: 'Rockwell';
+
+}
+
+QPlainTextEdit{
+    background-color: rgb(177, 177, 177);
+    color: black;
+    font-size: 20px;
+    font-family: 'Rockwell';
+
+}
+
+QCommandLinkButton{
+    background-color: rgb(177, 177, 177);
+    color: black;
+    font-family: 'Rockwell';
+
+}
+
+QCheckBox{
+    color: black;
+}
+
+QLineEdit{
+    color:black;
+    font-size: 20px;
+    font-family: 'Rockwell';
+
+}

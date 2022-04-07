@@ -4,11 +4,13 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from passgen import Ui_genWindow
 from addpass import Ui_addpassWin
 
+import webbrowser
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(636, 413)
+        MainWindow.resize(615, 413)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.label = QtWidgets.QLabel(self.centralwidget)
@@ -52,7 +54,15 @@ class Ui_MainWindow(object):
         self.menuTheme.addAction(self.actionDark)
         self.menuTheme.addAction(self.actionLight)
         self.menubar.addAction(self.menuTheme.menuAction())
-        MainWindow.setStyleSheet(open('styles/mainwin.css').read())
+
+        self.menuHelp = QtWidgets.QMenu(self.menubar)
+        self.actionGithub = QtWidgets.QAction(MainWindow)
+        self.menuHelp.addAction(self.actionGithub)
+        self.menubar.addAction(self.menuHelp.menuAction())
+
+        self.actionDark.setObjectName("actionGithub")
+        MainWindow.setStyleSheet(open('styles/mainwindark.css').read())
+        self.style = 'd'
         self.con(MainWindow)
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -67,24 +77,52 @@ class Ui_MainWindow(object):
         self.menuTheme.setTitle(_translate("MainWindow", "Theme"))
         self.actionDark.setText(_translate("MainWindow", "Dark"))
         self.actionLight.setText(_translate("MainWindow", "Light"))
+        self.menuHelp.setTitle(_translate("MainWindow", "Help"))
+        self.actionGithub.setText(_translate("MainWindow", "Github"))
+        
+
+    
         
     def con(self, MainWindow):
         self.generatepassButton.clicked.connect(self.generatepass)
         self.newpassButton.clicked.connect(self.addpass)
+        self.actionGithub.triggered.connect(self.ghub)
+        self.actionDark.triggered.connect(self.dark)
+        self.actionLight.triggered.connect(self.light)
 
     def generatepass(self):
         self.genWindow = QtWidgets.QWidget()
         self.ui = Ui_genWindow()
         self.ui.setupUi(self.genWindow)
+        if self.style == 'l':
+            self.genWindow.setStyleSheet(open('styles/mainwinlight.css').read())
+        else:
+            self.genWindow.setStyleSheet(open('styles/mainwindark.css').read())
+
         self.genWindow.show()
 
     def addpass(self):
         self.addpassWin = QtWidgets.QWidget()
         self.ui = Ui_addpassWin()
         self.ui.setupUi(self.addpassWin)
+        if self.style == 'l':
+            self.addpassWin.setStyleSheet(open('styles/mainwinlight.css').read())
+        else:
+            self.addpassWin.setStyleSheet(open('styles/mainwindark.css').read())
         self.addpassWin.show()
 
-    
+    def ghub(self):
+        webbrowser.open('https://github.com/anshmehta7x/Vault')
+
+    def light(self):
+        
+        MainWindow.setStyleSheet(open('styles/mainwinlight.css').read())
+        self.style = 'l'
+
+    def dark(self):
+        MainWindow.setStyleSheet(open('styles/mainwindark.css').read())
+        self.style = 'd'
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)

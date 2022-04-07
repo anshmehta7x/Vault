@@ -6,7 +6,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_genWindow(object):
     def setupUi(self, genWindow):
         genWindow.setObjectName("genWindow")
-        genWindow.resize(544, 500)
+        genWindow.resize(544, 450)
         self.lengthSlider = QtWidgets.QSlider(genWindow)
         self.lengthSlider.setGeometry(QtCore.QRect(250, 100, 271, 41))
         font = QtGui.QFont()
