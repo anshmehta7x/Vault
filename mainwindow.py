@@ -20,7 +20,7 @@ class Ui_MainWindow(object):
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(120, 10, 121, 121))
         self.label.setText("")
-        self.label.setPixmap(QtGui.QPixmap("keyIcon.jpg"))
+        self.label.setPixmap(QtGui.QPixmap("assets/keyIconEdited.png"))
         self.label.setScaledContents(True)
         self.label.setObjectName("label")
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
@@ -58,6 +58,9 @@ class Ui_MainWindow(object):
         self.menuTheme.addAction(self.actionDark)
         self.menuTheme.addAction(self.actionLight)
         self.menubar.addAction(self.menuTheme.menuAction())
+        MainWindow.setStyleSheet(open('styles/mainwin.css').read())
+        self.con(MainWindow)
+
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -72,9 +75,25 @@ class Ui_MainWindow(object):
         self.menuTheme.setTitle(_translate("MainWindow", "Theme"))
         self.actionDark.setText(_translate("MainWindow", "Dark"))
         self.actionLight.setText(_translate("MainWindow", "Light"))
+        
+    def con(self, MainWindow):
+        self.newpassButton.clicked.connect(lambda: self.newpass())
+        
+        self.editpassButton.clicked.connect(lambda: self.editpass())
+        self.generatepassButton.clicked.connect(lambda: self.generatepass())
 
-    def connect(self, MainWindow):
-        self
+    def newpass(self):
+        print("hey")
+
+    def editpass(self):
+        pass
+
+    def generatepass(self):
+
+       pass
+    
+        
+
 
 
 
@@ -86,3 +105,6 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
+
+
+
