@@ -10,6 +10,8 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+from passgen import Ui_genWindow
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -77,26 +79,14 @@ class Ui_MainWindow(object):
         self.actionLight.setText(_translate("MainWindow", "Light"))
         
     def con(self, MainWindow):
-        self.newpassButton.clicked.connect(lambda: self.newpass())
-        
-        self.editpassButton.clicked.connect(lambda: self.editpass())
-        self.generatepassButton.clicked.connect(lambda: self.generatepass())
-
-    def newpass(self):
-        print("hey")
-
-    def editpass(self):
-        pass
+        self.generatepassButton.clicked.connect(self.generatepass)
 
     def generatepass(self):
-
-       pass
+        self.genWindow = QtWidgets.QWidget()
+        self.ui = Ui_genWindow()
+        self.ui.setupUi(self.genWindow)
+        self.genWindow.show()
     
-        
-
-
-
-
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
@@ -105,6 +95,3 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
-
-
-

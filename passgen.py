@@ -109,6 +109,7 @@ class Ui_genWindow(object):
 
         self.retranslateUi(genWindow)
         QtCore.QMetaObject.connectSlotsByName(genWindow)
+        self.connections(genWindow)
 
     def retranslateUi(self, genWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -124,7 +125,13 @@ class Ui_genWindow(object):
         self.output.setText(_translate("genWindow", "Password:"))
         self.plainTextEdit.setPlainText(_translate("genWindow", "\n"
 ""))
+    def connections(self, genWindow):
+        self.generateButton.clicked.connect(gen)
+        
 
+ 
+def gen():
+    print(122)
 
 if __name__ == "__main__":
     import sys
