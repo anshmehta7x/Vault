@@ -10,6 +10,19 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from passgen import Password
+import json
+import os
+from encrypt import encrypt
+
+
+#making pass.json file if it does not exist
+if os.path.exists('pass.json'):
+    pass
+else:
+    with open('pass.json', 'w') as fp:
+        json.dump({"objects":[]},fp)
+        
+        fp.close()
 
 class Ui_addpassWin(object):
     def setupUi(self, addpassWin):
@@ -125,15 +138,66 @@ class Ui_addpassWin(object):
 
     def connections(self, addpassWin):
         self.generateButton.clicked.connect(self.passgen)
+        self.addButton.clicked.connect(self.add)
     
     def passgen(self, addpassWin):
         p = Password(10, True, True, True)
         z = p.make()
         self.passwordLine.setText(z)
+    
+    def add(self, addpassWin):
+        _translate = QtCore.QCoreApplication.translate
+        if self.nameLine.text() == "" or self.passwordLine.text() == "" or self.usernameLine.text() == "":
+            pass
+
+        else:
+            s = Store(self.nameLine.text(), self.urlLine.text(), self.usernameLine.text(), self.passwordLine.text(), self.comboBox.currentText())
+            s.dictionary()
+            self.clearfields(addpassWin)
+    
+    def clearfields(self, addpassWin):
+        toclear = [self.urlLine,self.passwordLine,self.nameLine,self.usernameLine]
+        for i in toclear:
+            i.setText("")
 
 
+    
+class Store():
+    def __init__(self,name,site,user,pword,stren):
+        self.name = name
+        self.site = site
+        self.username = user
+        self.password = pword
+        self.strength = stren
+
+    def dictionary(self):
+        readdic = reader()
+        passes = readdic["objects"]
+        self.crypt = encrypt(self.password)
+        print(self.crypt[0].decode())
+
+        towrite = {
+            "name":self.name,
+            "url":self.site,
+            "user":self.username,
+            "passkey":[self.crypt[0].decode(),self.crypt[1].decode()]
+        }
+        passes.append(towrite)
+        readdic["objects"] = passes
+        writer(readdic)
 
 
+#functions to speed up json read write process in other parts of program
+def reader():
+    with open("pass.json") as f:
+        return json.load(f)
+
+def writer(d):
+    with open("pass.json", "w") as f:
+        json.dump(d,f)
+
+
+    
 
 if __name__ == "__main__":
     import sys
