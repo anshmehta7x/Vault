@@ -3,6 +3,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 from passgen import Ui_genWindow
 from addpass import Ui_addpassWin
+from editpass import Ui_editpassWin
 
 import webbrowser
 
@@ -86,9 +87,11 @@ class Ui_MainWindow(object):
     def con(self, MainWindow):
         self.generatepassButton.clicked.connect(self.generatepass)
         self.newpassButton.clicked.connect(self.addpass)
+        self.editpassButton.clicked.connect(self.editpass)
         self.actionGithub.triggered.connect(self.ghub)
         self.actionDark.triggered.connect(self.dark)
         self.actionLight.triggered.connect(self.light)
+
 
     def generatepass(self):
         self.genWindow = QtWidgets.QWidget()
@@ -110,6 +113,17 @@ class Ui_MainWindow(object):
         else:
             self.addpassWin.setStyleSheet(open('styles/mainwindark.css').read())
         self.addpassWin.show()
+
+    def editpass(self):
+        self.editpassWin = QtWidgets.QWidget()
+        self.ui = Ui_editpassWin()
+        self.ui.setupUi(self.editpassWin)
+        if self.style == 'l':
+            self.editpassWin.setStyleSheet(open('styles/mainwinlight.css').read())
+        else:
+            self.editpassWin.setStyleSheet(open('styles/mainwindark.css').read())
+        self.editpassWin.show()
+
 
     def ghub(self):
         webbrowser.open('https://github.com/anshmehta7x/Vault')

@@ -21,7 +21,6 @@ if os.path.exists('pass.json'):
 else:
     with open('pass.json', 'w') as fp:
         json.dump({"objects":[]},fp)
-        
         fp.close()
 
 class Ui_addpassWin(object):
@@ -84,22 +83,7 @@ class Ui_addpassWin(object):
         font.setPointSize(16)
         self.usernameLabel.setFont(font)
         self.usernameLabel.setObjectName("usernameLabel")
-        self.nameLabel_3 = QtWidgets.QLabel(addpassWin)
-        self.nameLabel_3.setGeometry(QtCore.QRect(50, 440, 251, 51))
-        font = QtGui.QFont()
-        font.setFamily("Rockwell")
-        font.setPointSize(16)
-        self.nameLabel_3.setFont(font)
-        self.nameLabel_3.setObjectName("nameLabel_3")
-        self.comboBox = QtWidgets.QComboBox(addpassWin)
-        self.comboBox.setGeometry(QtCore.QRect(380, 450, 211, 41))
-        font = QtGui.QFont()
-        font.setFamily("Rockwell")
-        font.setPointSize(14)
-        self.comboBox.setFont(font)
-        self.comboBox.setObjectName("comboBox")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
+        
         self.addButton = QtWidgets.QPushButton(addpassWin)
         self.addButton.setGeometry(QtCore.QRect(250, 500, 231, 61))
         font = QtGui.QFont()
@@ -130,9 +114,6 @@ class Ui_addpassWin(object):
         self.generateButton.setText(_translate("addpassWin", "Generate a strong password instead"))
         self.usernameLabel.setText(_translate("addpassWin", "Username/ \n"
 " Email*"))
-        self.nameLabel_3.setText(_translate("addpassWin", "Encryption Strength"))
-        self.comboBox.setItemText(0, _translate("addpassWin", "Weak (faster)"))
-        self.comboBox.setItemText(1, _translate("addpassWin", "Strong (slower)"))
         self.addButton.setText(_translate("addpassWin", "Add"))
         self.requiredLabel.setText(_translate("addpassWin", "*required"))
 
@@ -151,7 +132,7 @@ class Ui_addpassWin(object):
             pass
 
         else:
-            s = Store(self.nameLine.text(), self.urlLine.text(), self.usernameLine.text(), self.passwordLine.text(), self.comboBox.currentText())
+            s = Store(self.nameLine.text(), self.urlLine.text(), self.usernameLine.text(), self.passwordLine.text(),True)
             s.dictionary()
             self.clearfields(addpassWin)
     
