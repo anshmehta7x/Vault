@@ -12,7 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 import json
 from encrypt import *
 import clipboard
-
+from PyQt5.QtWidgets import QMessageBox
 
 
 class Ui_editpassWin(object):
@@ -185,6 +185,13 @@ class Item():
             self.passwrd = decrypt(self.pkey[0].encode(),self.pkey[1])
             self.key = self.pkey[1]
         except:
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Critical)
+            msg.setText("No passwords in databased")
+            msg.setInformativeText('Reopen the application and add passwords')
+            msg.setWindowTitle("Error")
+            msg.exec_()
+
             pass
 
     def copypass(self):
