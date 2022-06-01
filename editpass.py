@@ -10,6 +10,8 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import json
+from encrypt import *
+import clipboard
 
 
 
@@ -100,7 +102,20 @@ class Ui_editpassWin(object):
 
         self.retranslateUi(editpassWin)
         QtCore.QMetaObject.connectSlotsByName(editpassWin)
-        self.parse(editpassWin)
+        self.addtodropdown(editpassWin)
+
+        global it
+        it = Item(self.nameDropDown.currentText(),self.urlLine,self.usernameLine,self.passwordLine)
+        it.show()
+
+        self.nameDropDown.currentTextChanged.connect(self.nameselected)
+        self.saveButton.clicked.connect(self.savechanges)
+        self.deleteButton.clicked.connect(self.deleteitem)
+        self.passwordCopy.clicked.connect(self.pcopy)
+        self.usernameCopy.clicked.connect(self.ucopy)
+
+
+
 
     def retranslateUi(self, editpassWin):
         _translate = QtCore.QCoreApplication.translate
@@ -116,14 +131,130 @@ class Ui_editpassWin(object):
         self.passwordCopy.setText(_translate("editpassWin", "Copy"))
         self.saveButton.setText(_translate("editpassWin", "Save Changes"))
         self.deleteButton.setText(_translate("editpassWin", "Delete Password"))
+
+
+
     
-    def parse(self, editpassWin):
+    def addtodropdown(self, editpassWin):
         names = []
         for obj in reader()["objects"]:
             names.append(obj["name"])
         print(names)
         for name in names:
             self.nameDropDown.addItem(name)
+    
+    def nameselected(self,editpassWin):
+        n = self.nameDropDown.currentText()
+        global it
+        it = Item(self.nameDropDown.currentText(),self.urlLine,self.usernameLine,self.passwordLine)
+        
+        it.show()
+    
+    def savechanges(self,editpassWin):
+        it.save()
+
+    def deleteitem(self,editpassWin):
+        it.delt(self.nameDropDown)
+    
+    def pcopy(self, editpassWin):
+        it.copypass()
+
+    def ucopy(self,editpassWin):
+        it.copyuser()
+       
+
+class Item():
+    def __init__(self, nam, urlline, userline,passline):
+        self.name = nam
+        self.urlline = urlline
+        self.userline = userline
+        self.passline = passline
+        self.dataget()
+    
+    def dataget(self):
+        objs = reader()["objects"]
+        for obj in objs:
+            if obj["name"] == self.name:
+                self.url = obj["url"]
+                self.user = obj["user"]
+                self.pkey = obj["passkey"]
+            
+            else:
+                pass
+        try:
+            self.passwrd = decrypt(self.pkey[0].encode(),self.pkey[1])
+            self.key = self.pkey[1]
+        except:
+            pass
+
+    def copypass(self):
+        clipboard.copy(self.passwrd)
+    
+    def copyuser(self):
+        clipboard.copy(self.user)
+
+    def show(self):
+        self.urlline.setText(self.url)
+        self.userline.setText(self.user)
+        self.passline.setText(self.passwrd)
+    
+    def save(self):
+        z = reader()["objects"]
+        b = reader()
+        for objs in reader()["objects"]:
+            if objs["name"] == self.name:
+                z.remove(objs)
+                break
+        
+        b["objects"] = z
+        writer(b)
+        
+        newurl = self.urlline.text()
+        newuser = self.userline.text()
+        newpass = self.passline.text()
+        readdic = reader()
+        passes = readdic["objects"]
+        self.crypt = encrypt(newpass)
+        print(self.crypt[0].decode())
+        towrite = {
+            "name":self.name,
+            "url":newurl,
+            "user":newuser,
+            "passkey":[self.crypt[0].decode(),self.crypt[1].decode()]
+        }
+        passes.append(towrite)
+        readdic["objects"] = passes
+        writer(readdic)
+
+
+    def delt(self,box):
+        z = reader()["objects"]
+        b = reader()
+        for objs in reader()["objects"]:
+            if objs["name"] == self.name:
+                z.remove(objs)
+                break
+        
+        b["objects"] = z
+        writer(b)
+
+        box.clear()
+        self.urlline.setText("")
+        self.userline.setText("")
+        self.passline.setText("")
+        names = []
+        for obj in reader()["objects"]:
+            names.append(obj["name"])
+        print(names)
+        for name in names:
+            box.addItem(name)
+
+        del it
+
+
+        
+
+
         
 
 

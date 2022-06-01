@@ -15,6 +15,17 @@ QMenuBar{
     background-color: black;
 }
 
+QComboBox QAbstractItemView {
+    border: 1px solid grey;
+    background: white;
+    selection-background-color: grey;
+  }
+  QComboBox {
+    background: rgb(58, 58, 58);
+    color: white
+  }
+  
+
 QMenu{
     color: white;
     background-color: black;
